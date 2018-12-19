@@ -44,7 +44,7 @@ class RecaptchaServiceProvider extends ServiceProvider
     {
         $path = __DIR__ . '/../config/recaptcha-v3.php';
 
-        $this->mergeConfigFrom($path, 'recaptcha');
+        $this->mergeConfigFrom($path, 'recaptcha-v3');
 
         if (function_exists('config_path')) {
             $this->publishes([$path => config_path('recaptcha-v3.php')], 'config');
@@ -57,7 +57,7 @@ class RecaptchaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('recaptcha', function ($app) {
-            return new ReCaptcha($app['config']['recaptcha.secret_key']);
+            return new ReCaptcha($app['config']['recaptcha-v3.secret_key']);
         });
     }
 
