@@ -30,14 +30,16 @@ composer require huangdijia/laravel-recaptcha-v3
 
 Publish configuration file to your `config` folder with command:
 
+```bash
     php artisan vendor:publish --provider="Huangdijia\Recaptcha\RecaptchaServiceProvider" --tag=config
+```
 
 ## Usage
 
-Use as regular validation rule `recaptcha:{ACTION},{SCORE}` like:
+Use as regular validation rule `recaptcha:{ACTION},{SCORE},{HOSTNAME}` like:
 
 ```php
 Validator::make($request->all(), [
-    'g-recaptcha-response' => 'required|recaptcha:register,0.5'
+    'g-recaptcha-response' => 'required|recaptcha:register,0.5,www.a.com',
 ]);
-```# laravel-recaptcha-v3
+```
