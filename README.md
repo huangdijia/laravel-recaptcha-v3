@@ -11,7 +11,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "huangdijia/recaptcha-v3": "~1.0"
+        "huangdijia/laravel-recaptcha-v3": "~1.0"
     }
 }
 ```
@@ -25,7 +25,7 @@ composer update
 Or you can simply run
 
 ```bash
-composer require huangdijia/recaptcha-v3
+composer require huangdijia/laravel-recaptcha-v3
 ```
 
 Publish configuration file to your `config` folder with command:
