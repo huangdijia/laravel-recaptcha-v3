@@ -11,7 +11,7 @@ use ReCaptcha\ReCaptcha;
  */
 class RecaptchaServiceProvider extends ServiceProvider
 {
-    protected $defer = true;
+    protected $defer = false;
 
     /**
      * Bootstrap the application events.
