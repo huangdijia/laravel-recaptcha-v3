@@ -42,12 +42,12 @@ class RecaptchaServiceProvider extends ServiceProvider
      */
     protected function bootConfig()
     {
-        $path = __DIR__ . '/../config/recaptcha.php';
+        $path = __DIR__ . '/../config/recaptcha-v3.php';
 
         $this->mergeConfigFrom($path, 'recaptcha');
 
         if (function_exists('config_path')) {
-            $this->publishes([$path => config_path('recaptcha.php')], 'config');
+            $this->publishes([$path => config_path('recaptcha-v3.php')], 'config');
         }
     }
 
