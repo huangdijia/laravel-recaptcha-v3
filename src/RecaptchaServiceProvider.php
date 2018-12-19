@@ -29,7 +29,7 @@ class RecaptchaServiceProvider extends ServiceProvider
                 $recaptcha->setExpectedAction($parameters[0]);
             }
 
-            if ($parameters[1] ?? 0.5) {
+            if ($parameters[1] ?? '') {
                 $recaptcha->setScoreThreshold($parameters[1]);
             }
 
