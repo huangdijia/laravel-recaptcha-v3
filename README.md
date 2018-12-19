@@ -40,4 +40,4 @@ Use as regular validation rule `recaptcha:{ACTION},{SCORE}` like:
 Validator::make($request->all(), [
     'g-recaptcha-response' => 'required|recaptcha:register,0.5'
 ]);
-```
+```# laravel-recaptcha-v3
