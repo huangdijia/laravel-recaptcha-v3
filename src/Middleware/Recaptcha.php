@@ -32,7 +32,7 @@ class ReCaptcha
             $resp = $recaptcha->verify($request->input(config('recaptcha-v3.input_name', 'g-recaptcha-response')), $request->getClientIp());
 
             if (!$resp->isSuccess()) {
-                abort(config('recaptcha-v3.response_code', 401), config('recaptcha-v3.response_message', 'Google ReCaptcha verify failure'));
+                abort(config('recaptcha-v3.response_code', 401), config('recaptcha-v3.response_message', 'Google ReCaptcha Verify Fails'));
             }
         }
 
