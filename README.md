@@ -31,7 +31,7 @@ composer require huangdijia/laravel-recaptcha-v3
 Publish configuration file to your `config` folder with command:
 
 ```bash
-    php artisan vendor:publish --provider="Huangdijia\Recaptcha\RecaptchaServiceProvider" --tag=config
+php artisan vendor:publish --provider="Huangdijia\Recaptcha\RecaptchaServiceProvider" --tag=config
 ```
 
 ## Usage
@@ -74,6 +74,18 @@ Validator::make($request->all(), [
 
 ### Validation as middleware
 
+Set `$routeMiddleware`
+
 ```php
-Route::get('/path')->middleware(Huangdijia\Recaptcha\Middleware\ReCaptcha::class);
+    $routeMiddleware = [
+        // ...
+        'recaptcha' => Huangdijia\Recaptcha\Middleware\ReCaptcha::class,
+    ];
+```
+
+Use with route
+
+```php
+Route::get('/path')->middleware('recaptcha');
+Route::get('/path')->middleware('recaptcha:{ACTION},{SCORE},{HOSTNAME}');
 ```
