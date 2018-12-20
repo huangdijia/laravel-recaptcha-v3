@@ -3,6 +3,7 @@
 namespace Huangdijia\Recaptcha;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use ReCaptcha\ReCaptcha;
 
 /**
@@ -34,6 +35,30 @@ class RecaptchaServiceProvider extends ServiceProvider
             }
 
             return $recaptcha->verify($value, $app['request']->getClientIp())->isSuccess();
+        });
+
+        $this->loadViewsFrom(__DIR__ . '/../views', 'recaptcha');
+
+        // @recapcha_initjs(['site_key' => 'xxx', 'action' => 'action_name']);
+        Blade::directive('recaptcha_initjs', function ($expression) {
+            $expression = Blade::stripParentheses($expression) ?: '[]';
+
+            return "@include('recaptcha::components.initjs', {$expression})";
+
+            /**
+             * return "<?php echo \$__env->make('recaptcha::components.initjs', {$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+             */
+        });
+        
+        // @recapcha_field(['site_key' => 'xxx', 'name' => 'input_name']);
+        Blade::directive('recaptcha_field', function ($expression) {
+            $expression = Blade::stripParentheses($expression) ?: '[]';
+
+            return "@include('recaptcha::components.field', {$expression})";
+
+            /**
+             * return "<?php echo \$__env->make('recaptcha::components.field', {$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+             */
         });
     }
 
