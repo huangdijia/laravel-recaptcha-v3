@@ -36,10 +36,44 @@ Publish configuration file to your `config` folder with command:
 
 ## Usage
 
+### Forms
+
+```php
+// default
+@recaptcha_field()
+
+// custom
+@recaptcha_field(['site_key'=>'your_key', 'name'=>'input_name'])
+```
+
+### Init Recaptcha Javascript
+
+*Must add after `@recaptcha_field()`*
+
+Recaptcha v3 works best when it is loaded on every page to get the most context about interactions. Therefore, add to your header or footer template:
+
+```php
+// default
+@recaptcha_initjs()
+
+// custom
+@recaptcha_initjs(['site_key'=>'your_key', 'action' => 'action_name', 'name'=>'input_name'])
+```
+
+### Validation as regular validation rule
+
 Use as regular validation rule `recaptcha:{ACTION},{SCORE},{HOSTNAME}` like:
 
 ```php
 Validator::make($request->all(), [
     'g-recaptcha-response' => 'required|recaptcha:register,0.5,www.a.com',
+    // or
+    // 'g-recaptcha-response' => 'required|recaptcha',
 ]);
+```
+
+### Validation as middleware
+
+```php
+Route::get('/path')->middleware(Huangdijia\Recaptcha\Middleware\ReCaptcha::class);
 ```
