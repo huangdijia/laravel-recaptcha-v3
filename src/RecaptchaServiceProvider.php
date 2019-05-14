@@ -96,8 +96,8 @@ class RecaptchaServiceProvider extends ServiceProvider
         $this->mergeConfigFrom($configV2, 'recaptcha-v2');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([$configV3 => $this->app->basePath('recaptcha-v3.php')], 'config');
-            $this->publishes([$configV2 => $this->app->basePath('recaptcha-v2.php')], 'config');
+            $this->publishes([$configV3 => $this->app->basePath('config/recaptcha-v3.php')], 'config');
+            $this->publishes([$configV2 => $this->app->basePath('config/recaptcha-v2.php')], 'config');
         }
     }
 
