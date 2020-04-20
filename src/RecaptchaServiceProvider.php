@@ -2,8 +2,8 @@
 
 namespace Huangdijia\Recaptcha;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 use ReCaptcha\ReCaptcha;
 
 /**
@@ -72,15 +72,17 @@ class RecaptchaServiceProvider extends ServiceProvider
         // @recapcha_initjs(['site_key' => 'xxx', 'action' => 'action_name']);
         Blade::directive('recaptcha_initjs', function ($expression) {
             $expression = Blade::stripParentheses($expression) ?: '[]';
+            $path       = 'recaptcha::components.initjs';
 
-            return "@include('recaptcha::components.initjs', {$expression})";
+            return "<?php echo \$__env->make('{$path}', {$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
         });
-        
+
         // @recapcha_field(['site_key' => 'xxx', 'name' => 'input_name']);
         Blade::directive('recaptcha_field', function ($expression) {
             $expression = Blade::stripParentheses($expression) ?: '[]';
+            $path       = 'recaptcha::components.field';
 
-            return "@include('recaptcha::components.field', {$expression})";
+            return "<?php echo \$__env->make('{$path}', {$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
         });
     }
 
