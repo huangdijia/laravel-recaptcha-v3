@@ -15,8 +15,8 @@
     "require": {
         "php": ">=7.0.0",
         "google/recaptcha": "^1.2",
-        "illuminate/support": "^5.7|^5.8|^6.0|^7.0",
-        "illuminate/console": "^5.7|^5.8|^6.0|^7.0"
+        "illuminate/support": "^5.7|^6",
+        "illuminate/console": "^5.7|^6"
     },
     "require-dev": {
         "orchestra/testbench": "^4.0"
