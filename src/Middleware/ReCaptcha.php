@@ -3,11 +3,12 @@
 namespace Huangdijia\Recaptcha\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
 class ReCaptcha
 {
     /**
-     * @param $request
+     * @param Request $request
      * @param \Closure $next
      * @param string $action
      * @param float $score
@@ -18,7 +19,7 @@ class ReCaptcha
     {
         if (config('recaptcha-v3.enable', true)) {
 
-            $hostname  = $hostname ?: $request->getHttpHost();
+            $hostname  = $hostname ?: $request->getHost();
             $recaptcha = app('recaptcha-v3')->setExpectedHostname($hostname);
 
             if ($action) {
@@ -38,7 +39,7 @@ class ReCaptcha
 
         if (config('recaptcha-v2.enable', true)) {
 
-            $hostname  = $hostname ?: $request->getHttpHost();
+            $hostname  = $hostname ?: $request->getHost();
             $recaptcha = app('recaptcha-v2')->setExpectedHostname($hostname);
 
             if ($action) {
