@@ -2,6 +2,7 @@
 
 namespace Huangdijia\Recaptcha;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use ReCaptcha\ReCaptcha;
@@ -19,12 +20,11 @@ class RecaptchaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $app = $this->app;
-
         $this->bootConfig();
 
         // v2
-        $app['validator']->extend('recaptcha-v2', function ($attribute, $value, $parameters, $validator) use ($app) {
+        $this->app['validator']->extend('recaptcha-v2', function ($attribute, $value, $parameters, $validator) {
+            $app       = Container::getInstance();
             $recaptcha = $app['recaptcha-v2']->setExpectedHostname($app['request']->getHttpHost());
 
             if ($parameters[0] ?? '') {
@@ -39,7 +39,8 @@ class RecaptchaServiceProvider extends ServiceProvider
         });
 
         // v3
-        $app['validator']->extend('recaptcha', function ($attribute, $value, $parameters, $validator) use ($app) {
+        $this->app['validator']->extend('recaptcha', function ($attribute, $value, $parameters, $validator) {
+            $app       = Container::getInstance();
             $recaptcha = $app['recaptcha-v3']->setExpectedHostname($app['request']->getHttpHost());
 
             if ($parameters[0] ?? '') {
@@ -53,7 +54,8 @@ class RecaptchaServiceProvider extends ServiceProvider
             return $recaptcha->verify($value, $app['request']->getClientIp())->isSuccess();
         });
 
-        $app['validator']->extend('recaptcha-v3', function ($attribute, $value, $parameters, $validator) use ($app) {
+        $this->app['validator']->extend('recaptcha-v3', function ($attribute, $value, $parameters, $validator) {
+            $app       = Container::getInstance();
             $recaptcha = $app['recaptcha-v3']->setExpectedHostname($app['request']->getHttpHost());
 
             if ($parameters[0] ?? '') {
@@ -108,11 +110,12 @@ class RecaptchaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // singleton
-        $this->app->singleton('recaptcha-v3', function ($app) {
+        // bind
+        $this->app->bind('recaptcha-v3', function ($app) {
             return new ReCaptcha($app['config']['recaptcha-v3.secret_key']);
         });
-        $this->app->singleton('recaptcha-v2', function ($app) {
+
+        $this->app->bind('recaptcha-v2', function ($app) {
             return new ReCaptcha($app['config']['recaptcha-v2.secret_key']);
         });
 
