@@ -1,5 +1,13 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of http-client.
+ *
+ * @link     https://github.com/huangdijia/laravel-recaptcha-v3
+ * @document https://github.com/huangdijia/laravel-recaptcha-v3/2.x/main/README.md
+ * @contact  huangdijia@gmail.com
+ */
 namespace Huangdijia\Recaptcha;
 
 use Illuminate\Container\Container;
@@ -8,8 +16,7 @@ use Illuminate\Support\ServiceProvider;
 use ReCaptcha\ReCaptcha;
 
 /**
- * Class RecaptchaServiceProvider
- * @package Huangdijia\Recaptcha
+ * Class RecaptchaServiceProvider.
  */
 class RecaptchaServiceProvider extends ServiceProvider
 {
@@ -24,7 +31,7 @@ class RecaptchaServiceProvider extends ServiceProvider
 
         // v2
         $this->app['validator']->extend('recaptcha-v2', function ($attribute, $value, $parameters, $validator) {
-            $app       = Container::getInstance();
+            $app = Container::getInstance();
             $recaptcha = $app['recaptcha-v2']->setExpectedHostname($app['request']->getHttpHost());
 
             if ($parameters[0] ?? '') {
@@ -40,7 +47,7 @@ class RecaptchaServiceProvider extends ServiceProvider
 
         // v3
         $this->app['validator']->extend('recaptcha', function ($attribute, $value, $parameters, $validator) {
-            $app       = Container::getInstance();
+            $app = Container::getInstance();
             $recaptcha = $app['recaptcha-v3']->setExpectedHostname($app['request']->getHttpHost());
 
             if ($parameters[0] ?? '') {
@@ -55,7 +62,7 @@ class RecaptchaServiceProvider extends ServiceProvider
         });
 
         $this->app['validator']->extend('recaptcha-v3', function ($attribute, $value, $parameters, $validator) {
-            $app       = Container::getInstance();
+            $app = Container::getInstance();
             $recaptcha = $app['recaptcha-v3']->setExpectedHostname($app['request']->getHttpHost());
 
             if ($parameters[0] ?? '') {
@@ -74,18 +81,45 @@ class RecaptchaServiceProvider extends ServiceProvider
         // @recapcha_initjs(['site_key' => 'xxx', 'action' => 'action_name']);
         Blade::directive('recaptcha_initjs', function ($expression) {
             $expression = Blade::stripParentheses($expression) ?: '[]';
-            $path       = 'recaptcha::components.initjs';
+            $path = 'recaptcha::components.initjs';
 
-            return "<?php echo \$__env->make('{$path}', {$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
+            return "<?php echo \$__env->make('{$path}', {$expression}, \\Illuminate\\Support\\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
         });
 
         // @recapcha_field(['site_key' => 'xxx', 'name' => 'input_name']);
         Blade::directive('recaptcha_field', function ($expression) {
             $expression = Blade::stripParentheses($expression) ?: '[]';
-            $path       = 'recaptcha::components.field';
+            $path = 'recaptcha::components.field';
 
-            return "<?php echo \$__env->make('{$path}', {$expression}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
+            return "<?php echo \$__env->make('{$path}', {$expression}, \\Illuminate\\Support\\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
         });
+    }
+
+    /**
+     * Register the service provider.
+     */
+    public function register()
+    {
+        // bind
+        $this->app->bind('recaptcha-v3', fn ($app) => new ReCaptcha($app['config']['recaptcha-v3.secret_key']));
+
+        $this->app->bind('recaptcha-v2', fn ($app) => new ReCaptcha($app['config']['recaptcha-v2.secret_key']));
+
+        // alias
+        $this->app->alias('recaptcha-v3', 'recaptcha');
+    }
+
+    /**
+     * Get the services provided by the provider.
+     * @return array
+     */
+    public function provides()
+    {
+        return [
+            'recaptcha',
+            'recaptcha-v3',
+            'recaptcha-v2',
+        ];
     }
 
     /**
@@ -103,32 +137,5 @@ class RecaptchaServiceProvider extends ServiceProvider
             $this->publishes([$configV3 => $this->app->basePath('config/recaptcha-v3.php')], 'config');
             $this->publishes([$configV2 => $this->app->basePath('config/recaptcha-v2.php')], 'config');
         }
-    }
-
-    /**
-     * Register the service provider.
-     */
-    public function register()
-    {
-        // bind
-        $this->app->bind('recaptcha-v3', fn($app) => new ReCaptcha($app['config']['recaptcha-v3.secret_key']));
-
-        $this->app->bind('recaptcha-v2', fn($app) => new ReCaptcha($app['config']['recaptcha-v2.secret_key']));
-
-        // alias
-        $this->app->alias('recaptcha-v3', 'recaptcha');
-    }
-
-    /**
-     * Get the services provided by the provider.
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            'recaptcha',
-            'recaptcha-v3',
-            'recaptcha-v2',
-        ];
     }
 }

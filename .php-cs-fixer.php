@@ -11,8 +11,8 @@ declare(strict_types=1);
 $header = <<<'EOF'
 This file is part of http-client.
 
-@link     https://github.com/friendsofhyperf/http-client
-@document https://github.com/friendsofhyperf/http-client/blob/main/README.md
+@link     https://github.com/huangdijia/laravel-recaptcha-v3
+@document https://github.com/huangdijia/laravel-recaptcha-v3/2.x/main/README.md
 @contact  huangdijia@gmail.com
 EOF;
 
