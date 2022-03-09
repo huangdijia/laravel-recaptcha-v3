@@ -1,0 +1,16 @@
+# Magic behaviour with __get, __set, __call and __callStatic is not exactly static analyser-friendly :)
+# Fortunately, You can ingore it by the following config.
+#
+# vendor/bin/phpstan analyse app --memory-limit 200M -l 0
+#
+parameters:
+  reportUnmatchedIgnoredErrors: false
+  ignoreErrors:
+    # - '#Static call to instance method Hyperf\\HttpServer\\Router\\Router::[a-zA-Z0-9\\_]+\(\)#'
+    # - '#Static call to instance method Hyperf\\DbConnection\\Db::[a-zA-Z0-9\\_]+\(\)#'
+    # - '#Static call to instance method Hyperf\\DB\\DB::execute\(\)#'
+    # - '#Unsafe usage of new static\(\)#'
+    # - '#Undefined variable: \$this#'
+    - '#Access to an undefined property FriendsOfHyperf\\Http\\Client\\Response::\$\w+\.#'
+    - '#Function GuzzleHttp\\Psr7\\get_message_body_summary not found.#'
+    # - '#.*should either be compatible with ArrayAccess::offset\w+.*#'
