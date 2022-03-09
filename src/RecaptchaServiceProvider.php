@@ -111,13 +111,9 @@ class RecaptchaServiceProvider extends ServiceProvider
     public function register()
     {
         // bind
-        $this->app->bind('recaptcha-v3', function ($app) {
-            return new ReCaptcha($app['config']['recaptcha-v3.secret_key']);
-        });
+        $this->app->bind('recaptcha-v3', fn($app) => new ReCaptcha($app['config']['recaptcha-v3.secret_key']));
 
-        $this->app->bind('recaptcha-v2', function ($app) {
-            return new ReCaptcha($app['config']['recaptcha-v2.secret_key']);
-        });
+        $this->app->bind('recaptcha-v2', fn($app) => new ReCaptcha($app['config']['recaptcha-v2.secret_key']));
 
         // alias
         $this->app->alias('recaptcha-v3', 'recaptcha');

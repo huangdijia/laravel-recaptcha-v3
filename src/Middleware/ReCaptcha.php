@@ -9,7 +9,6 @@ class ReCaptcha
 {
     /**
      * @param Request $request
-     * @param \Closure $next
      * @param string $action
      * @param float $score
      * @param string $hostname
