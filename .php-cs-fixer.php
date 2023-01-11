@@ -4,8 +4,8 @@ declare(strict_types=1);
 /**
  * This file is part of http-client.
  *
- * @link     https://github.com/friendsofhyperf/http-client
- * @document https://github.com/friendsofhyperf/http-client/blob/main/README.md
+ * @link     https://github.com/huangdijia/laravel-recaptcha-v3
+ * @document https://github.com/huangdijia/laravel-recaptcha-v3/2.x/main/README.md
  * @contact  huangdijia@gmail.com
  */
 $header = <<<'EOF'
@@ -37,6 +37,11 @@ return (new PhpCsFixer\Config())
         ],
         'concat_space' => [
             'spacing' => 'one',
+        ],
+        'global_namespace_import' => [
+            'import_classes' => true,
+            'import_constants' => true,
+            'import_functions' => null,
         ],
         'blank_line_before_statement' => [
             'statements' => [
