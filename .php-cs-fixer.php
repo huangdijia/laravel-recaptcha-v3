@@ -5,7 +5,7 @@ declare(strict_types=1);
  * This file is part of laravel-recaptcha-v3.
  *
  * @link     https://github.com/huangdijia/laravel-recaptcha-v3
- * @document https://github.com/huangdijia/laravel-recaptcha-v3/blob/2.x/README.md
+ * @document https://github.com/huangdijia/laravel-recaptcha-v3/blob/main/README.md
  * @contact  huangdijia@gmail.com
  */
 use Huangdijia\PhpCsFixer\Config;
@@ -16,7 +16,7 @@ return (new Config())
     ->setHeaderComment(
         projectName: 'laravel-recaptcha-v3',
         projectLink: 'https://github.com/huangdijia/laravel-recaptcha-v3',
-        projectDocument: 'https://github.com/huangdijia/laravel-recaptcha-v3/blob/2.x/README.md',
+        projectDocument: 'https://github.com/huangdijia/laravel-recaptcha-v3/blob/main/README.md',
         contacts: [
             'huangdijia@gmail.com',
         ],

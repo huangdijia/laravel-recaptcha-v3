@@ -13,7 +13,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "huangdijia/laravel-recaptcha-v3": "^2.0"
+        "huangdijia/laravel-recaptcha-v3": "^3.0"
     }
 }
 ```

@@ -34,6 +34,9 @@
             "providers": [
                 "Huangdijia\\Recaptcha\\RecaptchaServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-main": "3.0-dev"
         }
     },
     "minimum-stability": "dev",
