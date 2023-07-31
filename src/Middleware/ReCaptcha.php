@@ -5,7 +5,7 @@ declare(strict_types=1);
  * This file is part of laravel-recaptcha-v3.
  *
  * @link     https://github.com/huangdijia/laravel-recaptcha-v3
- * @document https://github.com/huangdijia/laravel-recaptcha-v3/2.x/main/README.md
+ * @document https://github.com/huangdijia/laravel-recaptcha-v3/blob/2.x/README.md
  * @contact  huangdijia@gmail.com
  */
 namespace Huangdijia\Recaptcha\Middleware;
