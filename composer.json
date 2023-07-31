@@ -15,12 +15,12 @@
     "require": {
         "php": ">=8.0",
         "google/recaptcha": "^1.2",
-        "illuminate/support": "^9.0|^10.0",
-        "illuminate/console": "^9.0|^10.0"
+        "illuminate/support": "^9.0|^10.0|^11.0",
+        "illuminate/console": "^9.0|^10.0|^11.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.0",
-        "orchestra/testbench": "^7.0|^8.0",
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
         "huangdijia/php-coding-standard": "^1.1"
     },
     "autoload": {
@@ -37,6 +37,7 @@
         }
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "cs-fix": "php-cs-fixer fix $1",
         "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon ./src"

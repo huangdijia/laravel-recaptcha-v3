@@ -29,41 +29,11 @@ class RecaptchaServiceProvider extends ServiceProvider
     {
         $this->bootConfig();
 
-        // v2
-        $this->app['validator']->extend('recaptcha-v2', function ($attribute, $value, $parameters, $validator) {
-            $app = Container::getInstance();
-            $recaptcha = $app['recaptcha-v2']->setExpectedHostname($app['request']->getHttpHost());
-
-            if ($parameters[0] ?? '') {
-                $recaptcha->setExpectedAction($parameters[0]);
-            }
-
-            if ($parameters[1] ?? '') {
-                $recaptcha->setScoreThreshold($parameters[1]);
-            }
-
-            return $recaptcha->verify($value, $app['request']->getClientIp())->isSuccess();
-        });
-
-        // v3
+        // validator
         $this->app['validator']->extend('recaptcha', function ($attribute, $value, $parameters, $validator) {
             $app = Container::getInstance();
-            $recaptcha = $app['recaptcha-v3']->setExpectedHostname($app['request']->getHttpHost());
-
-            if ($parameters[0] ?? '') {
-                $recaptcha->setExpectedAction($parameters[0]);
-            }
-
-            if ($parameters[1] ?? '') {
-                $recaptcha->setScoreThreshold($parameters[1]);
-            }
-
-            return $recaptcha->verify($value, $app['request']->getClientIp())->isSuccess();
-        });
-
-        $this->app['validator']->extend('recaptcha-v3', function ($attribute, $value, $parameters, $validator) {
-            $app = Container::getInstance();
-            $recaptcha = $app['recaptcha-v3']->setExpectedHostname($app['request']->getHttpHost());
+            /** @var ReCaptcha $recaptcha */
+            $recaptcha = $app['recaptcha']->setExpectedHostname($app['request']->getHttpHost());
 
             if ($parameters[0] ?? '') {
                 $recaptcha->setExpectedAction($parameters[0]);
@@ -100,13 +70,7 @@ class RecaptchaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // bind
-        $this->app->bind('recaptcha-v3', fn ($app) => new ReCaptcha($app['config']['recaptcha-v3.secret_key']));
-
-        $this->app->bind('recaptcha-v2', fn ($app) => new ReCaptcha($app['config']['recaptcha-v2.secret_key']));
-
-        // alias
-        $this->app->alias('recaptcha-v3', 'recaptcha');
+        $this->app->bind('recaptcha', fn ($app) => new ReCaptcha($app['config']['recaptcha.secret_key']));
     }
 
     /**
@@ -117,8 +81,6 @@ class RecaptchaServiceProvider extends ServiceProvider
     {
         return [
             'recaptcha',
-            'recaptcha-v3',
-            'recaptcha-v2',
         ];
     }
 
@@ -127,15 +89,12 @@ class RecaptchaServiceProvider extends ServiceProvider
      */
     protected function bootConfig()
     {
-        $configV3 = __DIR__ . '/../config/recaptcha-v3.php';
-        $configV2 = __DIR__ . '/../config/recaptcha-v2.php';
+        $config = __DIR__ . '/../config/recaptcha.php';
 
-        $this->mergeConfigFrom($configV3, 'recaptcha-v3');
-        $this->mergeConfigFrom($configV2, 'recaptcha-v2');
+        $this->mergeConfigFrom($config, 'recaptcha');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([$configV3 => $this->app->basePath('config/recaptcha-v3.php')], 'config');
-            $this->publishes([$configV2 => $this->app->basePath('config/recaptcha-v2.php')], 'config');
+            $this->publishes([$config => $this->app->basePath('config/recaptcha.php')], 'config');
         }
     }
 }

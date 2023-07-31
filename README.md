@@ -91,3 +91,11 @@ Use with route
 Route::get('/path')->middleware('recaptcha');
 Route::get('/path')->middleware('recaptcha:{ACTION},{SCORE},{HOSTNAME}');
 ```
+
+Hidden ReCAPTCHA
+
+```css
+.grecaptcha-badge { 
+    display: none; 
+}
+```
